@@ -1,0 +1,179 @@
+/* Responsive Design */
+
+@media (max-width: 768px) {
+    .nav-menu {
+        flex-direction: column;
+        gap: 1rem;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 1rem;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        display: none;
+    }
+
+    .nav-menu.active {
+        display: flex;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    .search-bar {
+        flex-direction: column;
+    }
+
+    .search-input {
+        width: 100%;
+    }
+
+    .features {
+        grid-template-columns: 1fr;
+    }
+
+    .pgs-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .search-page {
+        grid-template-columns: 1fr;
+    }
+
+    .filters {
+        position: sticky;
+        top: 60px;
+    }
+
+    .detail-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .main-image {
+        height: 300px;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+
+    .actions button,
+    .actions a {
+        width: 100%;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 10px;
+    }
+
+    .hero-content h1 {
+        font-size: 1.5rem;
+    }
+
+    .featured-section h2,
+    .how-it-works h2 {
+        font-size: 1.8rem;
+    }
+
+    .steps {
+        grid-template-columns: 1fr;
+    }
+
+    .stats .container {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-item h3 {
+        font-size: 2rem;
+    }
+
+    .auth-card {
+        padding: 1.5rem;
+    }
+
+    .pg-details h1 {
+        font-size: 1.5rem;
+    }
+
+    .pg-footer {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .pg-footer a {
+        width: 100%;
+        text-align: center;
+    }
+
+    .review-card {
+        padding: 1rem;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #1a1a1a;
+        color: #e0e0e0;
+    }
+
+    .navbar {
+        background: #2a2a2a;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .nav-link {
+        color: #e0e0e0;
+    }
+
+    .pg-card {
+        background: #2a2a2a;
+    }
+
+    .pg-info h3 {
+        color: #e0e0e0;
+    }
+
+    .form-input {
+        background: #2a2a2a;
+        border-color: #444;
+        color: #e0e0e0;
+    }
+
+    .auth-card {
+        background: #2a2a2a;
+    }
+
+    .auth-header h3 {
+        color: #aaa;
+    }
+
+    .form-group label {
+        color: #e0e0e0;
+    }
+}
