@@ -1,179 +1,426 @@
-/* Responsive Design */
+/* ============================================
+   RESPONSIVE DESIGN - TABLET & MOBILE
+   ============================================ */
 
-@media (max-width: 768px) {
-    .nav-menu {
-        flex-direction: column;
-        gap: 1rem;
-        position: absolute;
-        top: 60px;
-        left: 0;
-        right: 0;
-        background: white;
-        padding: 1rem;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        display: none;
-    }
+/* ============================================
+   LARGE DESKTOP (1200px and above)
+   ============================================ */
 
-    .nav-menu.active {
-        display: flex;
-    }
+@media (max-width: 1200px) {
+  .navbar {
+    padding: 1rem 1.5rem;
+  }
 
-    .hamburger {
-        display: flex;
-    }
+  .nav-menu {
+    gap: 1.5rem;
+  }
 
-    .hero-content h1 {
-        font-size: 2rem;
-    }
+  .hero h1 {
+    font-size: 2.5rem;
+  }
 
-    .hero-content p {
-        font-size: 1rem;
-    }
+  .hero p {
+    font-size: 1.125rem;
+  }
 
-    .search-bar {
-        flex-direction: column;
-    }
-
-    .search-input {
-        width: 100%;
-    }
-
-    .features {
-        grid-template-columns: 1fr;
-    }
-
-    .pgs-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .search-page {
-        grid-template-columns: 1fr;
-    }
-
-    .filters {
-        position: sticky;
-        top: 60px;
-    }
-
-    .detail-wrapper {
-        grid-template-columns: 1fr;
-    }
-
-    .main-image {
-        height: 300px;
-    }
-
-    .actions {
-        flex-direction: column;
-    }
-
-    .actions button,
-    .actions a {
-        width: 100%;
-    }
-
-    .footer-content {
-        grid-template-columns: 1fr;
-    }
+  .section-title {
+    font-size: 2rem;
+  }
 }
 
-@media (max-width: 480px) {
-    .container {
-        padding: 0 10px;
-    }
+/* ============================================
+   TABLET (768px to 1023px)
+   ============================================ */
 
-    .hero-content h1 {
-        font-size: 1.5rem;
-    }
+@media (max-width: 1023px) {
+  .navbar {
+    flex-wrap: wrap;
+    padding: 1rem;
+  }
 
-    .featured-section h2,
-    .how-it-works h2 {
-        font-size: 1.8rem;
-    }
+  .logo {
+    font-size: 1.5rem;
+  }
 
-    .steps {
-        grid-template-columns: 1fr;
-    }
+  .nav-menu {
+    order: 3;
+    flex-basis: 100%;
+    gap: 1rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
 
-    .stats .container {
-        grid-template-columns: 1fr;
-    }
+  .hero {
+    padding: 2rem 1rem;
+  }
 
-    .stat-item h3 {
-        font-size: 2rem;
-    }
+  .hero h1 {
+    font-size: 2rem;
+  }
 
-    .auth-card {
-        padding: 1.5rem;
-    }
+  .hero p {
+    font-size: 1rem;
+  }
 
-    .pg-details h1 {
-        font-size: 1.5rem;
-    }
+  .search-bar {
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+  }
 
-    .pg-footer {
-        flex-direction: column;
-        gap: 1rem;
-    }
+  .search-bar button {
+    grid-column: auto;
+  }
 
-    .pg-footer a {
-        width: 100%;
-        text-align: center;
-    }
+  .features {
+    padding: 3rem 1rem;
+  }
 
-    .review-card {
-        padding: 1rem;
-    }
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .feature-card {
+    padding: 1.5rem;
+  }
+
+  .feature-icon {
+    font-size: 2.5rem;
+  }
+
+  .listings {
+    padding: 3rem 1rem;
+  }
+
+  .listings-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .pg-image {
+    height: 150px;
+  }
+
+  .footer-content {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+  }
 }
 
-/* Accessibility */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
+/* ============================================
+   MOBILE DEVICES (480px to 767px)
+   ============================================ */
+
+@media (max-width: 767px) {
+  /* Typography */
+  html {
+    font-size: 14px;
+  }
+
+  /* Navbar */
+  .navbar {
+    flex-direction: column;
+    padding: 1rem 0.5rem;
+    gap: 1rem;
+  }
+
+  .logo {
+    font-size: 1.25rem;
+    order: 1;
+  }
+
+  .nav-menu {
+    order: 3;
+    flex-basis: 100%;
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: center;
+  }
+
+  .nav-buttons {
+    order: 2;
+    width: 100%;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .nav-buttons button,
+  .nav-buttons a {
+    width: 100%;
+  }
+
+  /* Hero Section */
+  .hero {
+    padding: 2rem 1rem;
+  }
+
+  .hero h1 {
+    font-size: 1.75rem;
+  }
+
+  .hero p {
+    font-size: 0.95rem;
+  }
+
+  .search-bar {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    gap: 0.75rem;
+  }
+
+  .search-bar input,
+  .search-bar select {
+    padding: 0.625rem;
+    font-size: 0.95rem;
+  }
+
+  .search-bar button {
+    padding: 0.75rem;
+    font-size: 0.95rem;
+  }
+
+  /* Features Section */
+  .features {
+    padding: 2rem 1rem;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .feature-card {
+    padding: 1rem;
+  }
+
+  .feature-icon {
+    font-size: 2rem;
+  }
+
+  .feature-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .feature-card p {
+    font-size: 0.9rem;
+  }
+
+  /* Listings Section */
+  .listings {
+    padding: 2rem 1rem;
+  }
+
+  .listings-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .pg-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pg-image {
+    height: 200px;
+  }
+
+  .pg-content {
+    padding: 1rem;
+  }
+
+  .pg-title {
+    font-size: 1.1rem;
+  }
+
+  .pg-price {
+    font-size: 1.25rem;
+  }
+
+  .pg-footer {
+    gap: 0.5rem;
+  }
+
+  .pg-footer button {
+    padding: 0.625rem 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  /* Forms */
+  .form-container {
+    max-width: 100%;
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 0.625rem;
+    font-size: 0.95rem;
+  }
+
+  /* Buttons */
+  .btn {
+    padding: 0.625rem 1rem;
+    font-size: 0.95rem;
+    width: 100%;
+  }
+
+  .btn-small {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+    width: auto;
+  }
+
+  /* Footer */
+  footer {
+    padding: 2rem 1rem 1rem;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .footer-section h4 {
+    font-size: 1rem;
+  }
+
+  .footer-bottom {
+    font-size: 0.85rem;
+  }
+
+  /* Modal */
+  .modal-content {
+    width: 95%;
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  .modal-title {
+    font-size: 1.25rem;
+  }
+
+  /* Pagination */
+  .pagination {
+    gap: 0.25rem;
+  }
+
+  .pagination a,
+  .pagination button {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.85rem;
+  }
 }
 
-/* Dark Mode Support */
-@media (prefers-color-scheme: dark) {
-    body {
-        background-color: #1a1a1a;
-        color: #e0e0e0;
-    }
+/* ============================================
+   SMALL MOBILE (below 480px)
+   ============================================ */
 
-    .navbar {
-        background: #2a2a2a;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    }
+@media (max-width: 479px) {
+  html {
+    font-size: 13px;
+  }
 
-    .nav-link {
-        color: #e0e0e0;
-    }
+  body {
+    overflow-x: hidden;
+  }
 
-    .pg-card {
-        background: #2a2a2a;
-    }
+  .navbar {
+    padding: 0.75rem 0.5rem;
+  }
 
-    .pg-info h3 {
-        color: #e0e0e0;
-    }
+  .hero {
+    padding: 1.5rem 0.75rem;
+  }
 
-    .form-input {
-        background: #2a2a2a;
-        border-color: #444;
-        color: #e0e0e0;
-    }
+  .hero h1 {
+    font-size: 1.5rem;
+  }
 
-    .auth-card {
-        background: #2a2a2a;
-    }
+  .hero p {
+    font-size: 0.9rem;
+  }
 
-    .auth-header h3 {
-        color: #aaa;
-    }
+  .search-bar {
+    padding: 0.75rem;
+  }
 
-    .form-group label {
-        color: #e0e0e0;
-    }
+  .features {
+    padding: 1.5rem 0.75rem;
+  }
+
+  .section-title {
+    font-size: 1.25rem;
+  }
+
+  .listings {
+    padding: 1.5rem 0.75rem;
+  }
+
+  .form-container {
+    margin: 0.5rem;
+    padding: 1rem;
+  }
+
+  .btn {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .nav-menu {
+    gap: 0.5rem;
+  }
+
+  .feature-icon {
+    font-size: 1.75rem;
+  }
+
+  .pg-amenities {
+    gap: 0.25rem;
+  }
+
+  .amenity-tag {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+  body {
+    background-color: #ffffff;
+  }
+
+  nav,
+  footer,
+  .btn,
+  button {
+    display: none;
+  }
+
+  .pg-card,
+  .feature-card {
+    page-break-inside: avoid;
+    border: 1px solid #000;
+  }
 }

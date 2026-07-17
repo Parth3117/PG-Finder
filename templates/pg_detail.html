@@ -6,203 +6,227 @@
     <title>PG Detail - PG Finder</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+    <style>
+        .pg-detail {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .pg-images {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .main-image {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .thumbnail-images {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+        }
+        
+        .thumbnail {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+        
+        .thumbnail:hover {
+            border-color: var(--primary-color);
+        }
+        
+        .pg-details-info {
+            background: #f9fafb;
+            padding: 2rem;
+            border-radius: 0.5rem;
+        }
+        
+        .pg-details-info h1 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .btn-icon {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 0;
+        }
+        
+        .price-section, .description-section, .amenities-section, .rules-section, .contact-section {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .price-section:last-child {
+            border-bottom: none;
+        }
+        
+        .price-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: white;
+            border-radius: 0.375rem;
+        }
+        
+        .price-item .label {
+            font-weight: 600;
+        }
+        
+        .price-item .price {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+        
+        .amenity-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        
+        .amenity-badge {
+            background: white;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.9rem;
+            border: 1px solid var(--border-color);
+        }
+        
+        .rules-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .rules-list li {
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+        }
+        
+        .reviews-section {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--border-color);
+        }
+        
+        .review-item {
+            background: #f9fafb;
+            padding: 1.5rem;
+            border-radius: 0.375rem;
+            margin-bottom: 1rem;
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .review-form {
+            background: #f9fafb;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .pg-detail {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-image {
+                height: 300px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="container">
-            <a href="/" class="nav-brand">🏠 PGFinder</a>
-            <div class="nav-menu">
-                <a href="/" class="nav-link">Home</a>
-                <a href="/search" class="nav-link">Search PGs</a>
-                <div id="authNav">
-                    <a href="/login" class="nav-link">Login</a>
-                    <a href="/signup" class="nav-link btn-primary">Sign Up</a>
-                </div>
-                <div id="loggedInNav" style="display:none;">
-                    <a href="/dashboard" class="nav-link">Dashboard</a>
-                    <button onclick="logout()" class="nav-link btn-danger">Logout</button>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <!-- Header & Navigation -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">🏠 PG Finder</div>
+            <ul class="nav-menu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/search">Search PGs</a></li>
+            </ul>
+            <div id="auth-placeholder"></div>
+        </nav>
+    </header>
 
-    <div class="container">
-        <div id="pgDetail" class="pg-detail-container">
-            <!-- PG detail will be loaded here -->
+    <!-- Breadcrumb -->
+    <div class="container" style="padding: 2rem 2rem 0;">
+        <div class="breadcrumb">
+            <a href="/">Home</a>
+            <span>/</span>
+            <a href="/search">Search</a>
+            <span>/</span>
+            <span>PG Detail</span>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="footer">
+    <!-- PG Detail Content -->
+    <section class="listings">
         <div class="container">
-            <p>&copy; 2024 PGFinder. All rights reserved.</p>
+            <div id="pg-detail-container">
+                <div class="loading"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/search">Search PGs</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="mailto:support@pgfinder.com">Email: support@pgfinder.com</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 PG Finder. All rights reserved.</p>
         </div>
     </footer>
 
+    <script>
+        // Extract PG ID from URL
+        const pgId = window.location.pathname.split('/')[2];
+        document.body.dataset.pgId = pgId;
+    </script>
+    
     <script src="{{ url_for('static', filename='js/api.js') }}"></script>
     <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
-    <script>
-        async function loadPGDetail() {
-            const pgId = new URLSearchParams(window.location.search).get('id') || '{{ pg_id }}';
-            
-            try {
-                const response = await fetch(`/api/pgs/${pgId}`);
-                const data = await response.json();
-
-                if (data.success) {
-                    displayPGDetail(data.data);
-                }
-            } catch (error) {
-                console.error('Error loading PG detail:', error);
-            }
-        }
-
-        function displayPGDetail(pg) {
-            const container = document.getElementById('pgDetail');
-            const token = localStorage.getItem('token');
-            
-            container.innerHTML = `
-                <div class="detail-wrapper">
-                    <div class="pg-images">
-                        <div class="main-image">
-                            <img src="${pg.images[0]}" alt="${pg.title}" id="mainImage">
-                        </div>
-                        <div class="thumbnail-images">
-                            ${pg.images.map((img, idx) => `
-                                <img src="${img}" alt="Image ${idx + 1}" onclick="changeMainImage('${img}')" class="thumbnail">
-                            `).join('')}
-                        </div>
-                    </div>
-
-                    <div class="pg-details">
-                        <h1>${pg.title}</h1>
-                        <p class="location">📍 ${pg.address}, ${pg.city}</p>
-                        
-                        <div class="rating-section">
-                            <span class="rating">★ ${pg.rating} out of 5</span>
-                            <span class="reviews">(${pg.review_count} reviews)</span>
-                        </div>
-
-                        <div class="pricing-section">
-                            <h3>Pricing</h3>
-                            <div class="price-options">
-                                ${Object.entries(pg.price_per_room).map(([type, price]) => `
-                                    <div class="price-option">
-                                        <span>${type.charAt(0).toUpperCase() + type.slice(1)} Sharing</span>
-                                        <span class="price">₹${price.toLocaleString()}/month</span>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </div>
-
-                        <div class="amenities-section">
-                            <h3>Amenities</h3>
-                            <div class="amenities-list">
-                                ${pg.amenities.map(a => `<span class="amenity">✓ ${a}</span>`).join('')}
-                            </div>
-                        </div>
-
-                        <div class="owner-section">
-                            <h3>Contact Owner</h3>
-                            <p><strong>${pg.owner.name}</strong></p>
-                            <p>📞 ${pg.owner.phone}</p>
-                            <p>📧 ${pg.owner.email}</p>
-                            ${token ? `<button onclick="sendEnquiry('${pg.id}')" class="btn-primary">Send Enquiry</button>` : `<a href="/login" class="btn-primary">Login to Contact</a>`}
-                        </div>
-
-                        <div class="actions">
-                            ${token ? `<button onclick="toggleFavorite('${pg.id}')" class="btn-secondary">❤️ Add to Favorites</button>` : ''}
-                            <button onclick="shareProperty()" class="btn-secondary">📤 Share</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="description-section">
-                    <h3>About this PG</h3>
-                    <p>${pg.description}</p>
-                </div>
-
-                <div class="rules-section">
-                    <h3>House Rules</h3>
-                    <ul>
-                        ${pg.rules.map(rule => `<li>${rule}</li>`).join('')}
-                    </ul>
-                </div>
-
-                <div class="reviews-section">
-                    <h3>Reviews (${pg.review_count})</h3>
-                    <div class="reviews-list">
-                        ${pg.reviews.map(review => `
-                            <div class="review-card">
-                                <div class="review-header">
-                                    <strong>${review.user.name}</strong>
-                                    <span class="rating">★ ${review.rating}/5</span>
-                                </div>
-                                <p>${review.comment}</p>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-        }
-
-        function changeMainImage(src) {
-            document.getElementById('mainImage').src = src;
-        }
-
-        async function sendEnquiry(pgId) {
-            const message = prompt('Send a message to the owner:');
-            if (!message) return;
-
-            try {
-                const response = await fetch(`/api/enquiries/${pgId}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    },
-                    body: JSON.stringify({ message })
-                });
-                const data = await response.json();
-                if (data.success) {
-                    alert('Enquiry sent successfully!');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-
-        async function toggleFavorite(pgId) {
-            try {
-                const response = await fetch(`/api/favorites/${pgId}`, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
-                const data = await response.json();
-                if (data.success) {
-                    alert('Added to favorites!');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-
-        function shareProperty() {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Check out this PG',
-                    text: 'Found an amazing PG on PGFinder',
-                    url: window.location.href
-                });
-            } else {
-                alert('Share URL: ' + window.location.href);
-            }
-        }
-
-        window.addEventListener('load', loadPGDetail);
-    </script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>
