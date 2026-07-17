@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PG Detail - PG Finder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="nav-brand">🏠 PGFinder</a>
+            <div class="nav-menu">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/search" class="nav-link">Search PGs</a>
+                <div id="authNav">
+                    <a href="/login" class="nav-link">Login</a>
+                    <a href="/signup" class="nav-link btn-primary">Sign Up</a>
+                </div>
+                <div id="loggedInNav" style="display:none;">
+                    <a href="/dashboard" class="nav-link">Dashboard</a>
+                    <button onclick="logout()" class="nav-link btn-danger">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div id="pgDetail" class="pg-detail-container">
+            <!-- PG detail will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 PGFinder. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/api.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+    <script>
+        async function loadPGDetail() {
+            const pgId = new URLSearchParams(window.location.search).get('id') || '{{ pg_id }}';
+            
+            try {
+                const response = await fetch(`/api/pgs/${pgId}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    displayPGDetail(data.data);
+                }
+            } catch (error) {
+                console.error('Error loading PG detail:', error);
+            }
+        }
+
+        function displayPGDetail(pg) {
+            const container = document.getElementById('pgDetail');
+            const token = localStorage.getItem('token');
+            
+            container.innerHTML = `
+                <div class="detail-wrapper">
+                    <div class="pg-images">
+                        <div class="main-image">
+                            <img src="${pg.images[0]}" alt="${pg.title}" id="mainImage">
+                        </div>
+                        <div class="thumbnail-images">
+                            ${pg.images.map((img, idx) => `
+                                <img src="${img}" alt="Image ${idx + 1}" onclick="changeMainImage('${img}')" class="thumbnail">
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div class="pg-details">
+                        <h1>${pg.title}</h1>
+                        <p class="location">📍 ${pg.address}, ${pg.city}</p>
+                        
+                        <div class="rating-section">
+                            <span class="rating">★ ${pg.rating} out of 5</span>
+                            <span class="reviews">(${pg.review_count} reviews)</span>
+                        </div>
+
+                        <div class="pricing-section">
+                            <h3>Pricing</h3>
+                            <div class="price-options">
+                                ${Object.entries(pg.price_per_room).map(([type, price]) => `
+                                    <div class="price-option">
+                                        <span>${type.charAt(0).toUpperCase() + type.slice(1)} Sharing</span>
+                                        <span class="price">₹${price.toLocaleString()}/month</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="amenities-section">
+                            <h3>Amenities</h3>
+                            <div class="amenities-list">
+                                ${pg.amenities.map(a => `<span class="amenity">✓ ${a}</span>`).join('')}
+                            </div>
+                        </div>
+
+                        <div class="owner-section">
+                            <h3>Contact Owner</h3>
+                            <p><strong>${pg.owner.name}</strong></p>
+                            <p>📞 ${pg.owner.phone}</p>
+                            <p>📧 ${pg.owner.email}</p>
+                            ${token ? `<button onclick="sendEnquiry('${pg.id}')" class="btn-primary">Send Enquiry</button>` : `<a href="/login" class="btn-primary">Login to Contact</a>`}
+                        </div>
+
+                        <div class="actions">
+                            ${token ? `<button onclick="toggleFavorite('${pg.id}')" class="btn-secondary">❤️ Add to Favorites</button>` : ''}
+                            <button onclick="shareProperty()" class="btn-secondary">📤 Share</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="description-section">
+                    <h3>About this PG</h3>
+                    <p>${pg.description}</p>
+                </div>
+
+                <div class="rules-section">
+                    <h3>House Rules</h3>
+                    <ul>
+                        ${pg.rules.map(rule => `<li>${rule}</li>`).join('')}
+                    </ul>
+                </div>
+
+                <div class="reviews-section">
+                    <h3>Reviews (${pg.review_count})</h3>
+                    <div class="reviews-list">
+                        ${pg.reviews.map(review => `
+                            <div class="review-card">
+                                <div class="review-header">
+                                    <strong>${review.user.name}</strong>
+                                    <span class="rating">★ ${review.rating}/5</span>
+                                </div>
+                                <p>${review.comment}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function changeMainImage(src) {
+            document.getElementById('mainImage').src = src;
+        }
+
+        async function sendEnquiry(pgId) {
+            const message = prompt('Send a message to the owner:');
+            if (!message) return;
+
+            try {
+                const response = await fetch(`/api/enquiries/${pgId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({ message })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    alert('Enquiry sent successfully!');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        async function toggleFavorite(pgId) {
+            try {
+                const response = await fetch(`/api/favorites/${pgId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                const data = await response.json();
+                if (data.success) {
+                    alert('Added to favorites!');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function shareProperty() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Check out this PG',
+                    text: 'Found an amazing PG on PGFinder',
+                    url: window.location.href
+                });
+            } else {
+                alert('Share URL: ' + window.location.href);
+            }
+        }
+
+        window.addEventListener('load', loadPGDetail);
+    </script>
+</body>
+</html>
